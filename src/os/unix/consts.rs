@@ -62,6 +62,8 @@ mod posix {
             pub(super) const RTLD_LAZY: c_int = 0;
         } else if #[cfg(target_os = "aix")] {
             pub(super) const RTLD_LAZY: c_int = 4;
+        } else if #[cfg(target_os = "mos")] {
+            pub(super) const RTLD_LAZY: c_int = 32;
         } else if #[cfg(any(
             target_os = "linux",
             target_os = "android",
@@ -94,7 +96,7 @@ mod posix {
     }
 
     cfg_if! {
-        if #[cfg(target_os = "haiku")] {
+        if #[cfg(any(target_os = "haiku", target_os = "mos"))] {
             pub(super) const RTLD_NOW: c_int = 1;
         } else if #[cfg(any(
             target_os = "linux",
@@ -133,6 +135,7 @@ mod posix {
     cfg_if! {
         if #[cfg(any(
             target_os = "haiku",
+            target_os = "mos",
             all(target_os = "android",target_pointer_width = "32"),
         ))] {
             pub(super) const RTLD_GLOBAL: c_int = 2;
@@ -210,6 +213,7 @@ mod posix {
             target_os = "fuchsia",
             target_os = "redox",
             target_os = "hurd",
+            target_os = "mos",
         ))] {
             pub(super) const RTLD_LOCAL: c_int = 0;
         } else {
